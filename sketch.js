@@ -1,6 +1,6 @@
 let grid = [];
 let palette = [];
-let w = 10;
+let w = 4;
 let h = 20;
 
 const RED = 0;
