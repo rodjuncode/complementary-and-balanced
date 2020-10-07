@@ -18,6 +18,7 @@ let buttonSize = 50;
 let buttonVMargin = 20;
 let buttonHMargin = 24;
 let selectedColor = RED;
+let wSlider;
 
 let startHue = RED;
 let empty;
@@ -31,6 +32,10 @@ const LEFT = 3;
 function setup() {
     createCanvas(widthCanvas+padding*2+margin*2,heightCanvas+padding*2+margin*2+buttonSize+buttonVMargin*2);
     colorMode(HSL);
+
+    wSlider = createSlider(3,20,4);
+    wSlider.position(padding,padding+margin*2+heightCanvas+buttonVMargin*2+buttonSize);
+
     generate();
 
 }
@@ -38,6 +43,8 @@ function setup() {
 function generate() {
     canvas = createGraphics(widthCanvas+margin*2,heightCanvas+margin*2);
     palette = [];
+
+    w = wSlider.value();
 
     // create color palette
     let colorSteps;
@@ -131,79 +138,98 @@ function draw() {
     noStroke();
     ellipseMode(CORNER);
     push();
-    if (selectedColor == RED) {
-        strokeWeight(10);
-        stroke(0,0,70);
-    }    
-    fill(0,100,50);
-    ellipse(padding,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
-    push();
-    if (selectedColor == YELLOW) {
-        strokeWeight(10);
-        stroke(0,0,70);
-    }    
-    fill(60,100,50);
-    ellipse(padding+buttonSize*1+buttonHMargin*1,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
-    push();
-    if (selectedColor == GREEN) {
-        strokeWeight(10);
-        stroke(0,0,70);
-    }    
-    fill(120,100,50);
-    ellipse(padding+buttonSize*2+buttonHMargin*2,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
-    push();
-    if (selectedColor == CYAN) {
-        strokeWeight(10);
-        stroke(0,0,70);
-    }    
-    fill(180,100,50);
-    ellipse(padding+buttonSize*3+buttonHMargin*3,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
-    push();
-    if (selectedColor == VIOLET) {
-        strokeWeight(10);
-        stroke(0,0,70);
-    }    
-    fill(240,100,50);
-    ellipse(padding+buttonSize*4+buttonHMargin*4,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
-    push();
-    if (selectedColor == MAGENTA) {
-        strokeWeight(10);
-        stroke(0,0,70);
+    noStroke();
+    translate(padding,padding+margin*2+heightCanvas+buttonVMargin);
+    let colorWidth = (widthCanvas + margin*2)/360;
+    for (let i = 0; i < 360; i++) {
+        fill(i,100,50);
+        rect(i*colorWidth,0,colorWidth,buttonSize);
+
     }
-    fill(300,100,50);    
-    ellipse(padding+buttonSize*5+buttonHMargin*5,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
-    pop();
+
+    // pop();
+    // push();
+    // if (selectedColor == RED) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }    
+    // fill(0,100,50);
+    // ellipse(padding,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
+    // push();
+    // if (selectedColor == YELLOW) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }    
+    // fill(60,100,50);
+    // ellipse(padding+buttonSize*1+buttonHMargin*1,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
+    // push();
+    // if (selectedColor == GREEN) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }    
+    // fill(120,100,50);
+    // ellipse(padding+buttonSize*2+buttonHMargin*2,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
+    // push();
+    // if (selectedColor == CYAN) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }    
+    // fill(180,100,50);
+    // ellipse(padding+buttonSize*3+buttonHMargin*3,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
+    // push();
+    // if (selectedColor == VIOLET) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }    
+    // fill(240,100,50);
+    // ellipse(padding+buttonSize*4+buttonHMargin*4,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
+    // push();
+    // if (selectedColor == MAGENTA) {
+    //     strokeWeight(10);
+    //     stroke(0,0,70);
+    // }
+    // fill(300,100,50);    
+    // ellipse(padding+buttonSize*5+buttonHMargin*5,padding+margin*2+heightCanvas+buttonVMargin,buttonSize,buttonSize);
+    // pop();
 } 
 
 function mouseClicked() {
     if (mouseY > padding+canvas.height+buttonVMargin && mouseY < padding+canvas.height+buttonVMargin+buttonSize) {
-        if (mouseX > padding && mouseX < padding + buttonSize) {
-            selectedColor = startHue = RED;
-            generate();
-        } else if (mouseX > padding+buttonSize*1+buttonHMargin*1 && mouseX < (padding+buttonSize*1+buttonHMargin*1) + buttonSize) {
-            selectedColor = startHue = YELLOW;
-            generate();
-        } else if (mouseX > padding+buttonSize*2+buttonHMargin*2 && mouseX < (padding+buttonSize*2+buttonHMargin*2) + buttonSize) {
-            selectedColor = startHue = GREEN;
-            generate();
-        } else if (mouseX > padding+buttonSize*3+buttonHMargin*3 && mouseX < (padding+buttonSize*3+buttonHMargin*3) + buttonSize) {
-            selectedColor = startHue = CYAN;
-            generate();
-        } else if (mouseX > padding+buttonSize*4+buttonHMargin*4 && mouseX < (padding+buttonSize*4+buttonHMargin*4) + buttonSize) {
-            selectedColor = startHue = VIOLET;
-            generate();
-        } else if (mouseX > padding+buttonSize*5+buttonHMargin*5 && mouseX < (padding+buttonSize*5+buttonHMargin*5) + buttonSize) {
-            selectedColor = startHue = MAGENTA;
+        if (mouseX > padding && mouseX < padding + widthCanvas + margin*2) {
+            startHue = map(mouseX, padding+1, widthCanvas + margin*2,0,360);
             generate();
         }          
     } else if (mouseX > padding && mouseX < padding + canvas.width && mouseY > padding && mouseY < padding + canvas.height) {
         save(canvas,'complementaryColors.png');
-    }
+    }    
+    // if (mouseY > padding+canvas.height+buttonVMargin && mouseY < padding+canvas.height+buttonVMargin+buttonSize) {
+    //     if (mouseX > padding && mouseX < padding + buttonSize) {
+    //         selectedColor = startHue = RED;
+    //         generate();
+    //     } else if (mouseX > padding+buttonSize*1+buttonHMargin*1 && mouseX < (padding+buttonSize*1+buttonHMargin*1) + buttonSize) {
+    //         selectedColor = startHue = YELLOW;
+    //         generate();
+    //     } else if (mouseX > padding+buttonSize*2+buttonHMargin*2 && mouseX < (padding+buttonSize*2+buttonHMargin*2) + buttonSize) {
+    //         selectedColor = startHue = GREEN;
+    //         generate();
+    //     } else if (mouseX > padding+buttonSize*3+buttonHMargin*3 && mouseX < (padding+buttonSize*3+buttonHMargin*3) + buttonSize) {
+    //         selectedColor = startHue = CYAN;
+    //         generate();
+    //     } else if (mouseX > padding+buttonSize*4+buttonHMargin*4 && mouseX < (padding+buttonSize*4+buttonHMargin*4) + buttonSize) {
+    //         selectedColor = startHue = VIOLET;
+    //         generate();
+    //     } else if (mouseX > padding+buttonSize*5+buttonHMargin*5 && mouseX < (padding+buttonSize*5+buttonHMargin*5) + buttonSize) {
+    //         selectedColor = startHue = MAGENTA;
+    //         generate();
+    //     }          
+    // } else if (mouseX > padding && mouseX < padding + canvas.width && mouseY > padding && mouseY < padding + canvas.height) {
+    //     save(canvas,'complementaryColors.png');
+    // }
 
 }
 
